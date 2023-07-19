@@ -4,14 +4,29 @@ import { useState } from 'react';
 import { Button, Input } from '@components/index';
 
 const ToDoList = () => {
-  const [listItem, setListItem] = useState([]);
-  const [inputValue, setInputValue] = useState('');
+  const [listItem, setListItem] = useState<string[]>([]);
+  const [inputValue, setInputValue] = useState<string>('');
+  const [hoveredItem, setHoveredItem] = useState('');
 
-  const AddNewItem = () => {};
+  const AddNewItem = () => {
+    setListItem([...listItem, inputValue]);
+    setInputValue('');
+  };
 
   const CheckDone = () => {};
 
-  const Delete = () => {};
+  const Delete = (item: string) => {
+    const newListWithoutDeletedItem = listItem.filter((itemOfList) => {
+      return itemOfList !== item;
+    });
+    setListItem(newListWithoutDeletedItem);
+  };
+
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      AddNewItem();
+    }
+  };
 
   return (
     <div className='flex flex-col gap-2 opacity-75 bg-blue-400 border-solid border-blue-200 border-2 rounded-lg p-4 w-full'>
@@ -23,6 +38,7 @@ const ToDoList = () => {
           inputValue={inputValue}
           setInputValue={setInputValue}
           placeholder='New List item'
+          onKeyDown={handleKeyDown}
         />
         <Button
           className='bg-white font-bold py-1 px-2 border-solid border-1 border-gray-400 rounded-full hover:bg-blue-600 hover:text-white'
@@ -30,15 +46,40 @@ const ToDoList = () => {
         >
           Add
         </Button>
-        {/* <Button className='' onClick={CheckDone}>
-          Done
-        </Button>
-        <Button className='' onClick={Delete}>
-          Delete
-        </Button> */}
       </div>
       <div>
-        <ul>{}</ul>
+        <ul>
+          {listItem.map((item) => {
+            return (
+              <div
+                key={`${item + 1}`}
+                className='flex bg-blue-100 p-4 rounded-2xl mb-4 items-center cursor-pointer'
+                onMouseEnter={() => setHoveredItem(item)}
+                onMouseLeave={() => setHoveredItem('')}
+              >
+                <li className='mr-6 font-bold text-sm md:text-lg '>{item}</li>
+                <div
+                  className={`flex ${
+                    hoveredItem === item ? 'block' : 'hidden'
+                  }`}
+                >
+                  <Button
+                    className='mr-4 text-white  bg-green-600 hover:bg-green-500 border-solid rounded-2xl border-1 border-white py-1 px-2'
+                    onClick={CheckDone}
+                  >
+                    Done
+                  </Button>
+                  <Button
+                    className='text-white bg-red-800 hover:bg-red-600 border-solid rounded-2xl border-1 border-white py-1 px-2'
+                    onClick={() => Delete(item)}
+                  >
+                    Delete
+                  </Button>
+                </div>
+              </div>
+            );
+          })}
+        </ul>
       </div>
     </div>
   );

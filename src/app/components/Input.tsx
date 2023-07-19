@@ -6,6 +6,7 @@ interface InputProps {
   inputValue: string;
   setInputValue: React.Dispatch<React.SetStateAction<string>>;
   placeholder: string;
+  onKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => void;
 }
 
 const Input: FC<InputProps> = ({
@@ -14,6 +15,7 @@ const Input: FC<InputProps> = ({
   inputValue,
   setInputValue,
   placeholder,
+  onKeyDown,
 }) => {
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
@@ -27,6 +29,7 @@ const Input: FC<InputProps> = ({
         onChange={handleInputChange}
         value={inputValue}
         placeholder={placeholder}
+        onKeyDown={onKeyDown}
       ></input>
     </div>
   );
