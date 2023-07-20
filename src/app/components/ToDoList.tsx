@@ -85,7 +85,10 @@ const ToDoList = () => {
   };
 
   return (
-    <div className='flex flex-col gap-2 opacity-75 bg-blue-400 border-solid border-blue-200 border-2 rounded-lg p-4 w-full'>
+    <div
+      className='flex flex-col gap-2 opacity-75 bg-blue-400 border-solid border-blue-200 border-2 rounded-lg p-4 w-full'
+      data-testid='todo-component'
+    >
       <h1 className='text-2xl mb-4 font-bold'>TO DO LIST</h1>
       <div className='flex flex-col sm:flex-row gap-2 items-center justify-center md:justify-start'>
         <div className='flex flex-col'>
