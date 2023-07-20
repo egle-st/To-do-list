@@ -29,7 +29,16 @@ const ToDoList = () => {
           return prevItem;
         }
       });
-      setListItem(newList);
+      let notDoneItems = [];
+      let doneItems = [];
+      notDoneItems = newList.filter((item) => {
+        return item.done === false;
+      });
+      doneItems = newList.filter((item) => {
+        return item.done === true;
+      });
+      const doneAndUndoneLists = [...notDoneItems, ...doneItems];
+      setListItem(doneAndUndoneLists);
     }
   };
 
